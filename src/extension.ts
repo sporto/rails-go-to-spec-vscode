@@ -3,6 +3,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as resolver from './resolver';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as mkdirp from 'mkdirp';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -20,17 +23,25 @@ export function activate(context: vscode.ExtensionContext) {
 		return; // No open text editor
 	}
 
-	var document = editor.document;
-	var fileName = document.fileName;
-	console.log('fileName', fileName);
-	var related = resolver.getRelated(fileName);
-	console.log('related', related);
+	let document = editor.document;
+	let fileName: string = document.fileName;
+	let related: string = resolver.getRelated(fileName);
+ 	// console.log('related', related);
 
-	vscode.workspace.openTextDocument(related);
+	let dirname: string = path.dirname(related);
+	// console.log('dirname', dirname);
+	
+	let fileExists: boolean = fs.existsSync(related);
+	//console.log('fileExists', fileExists);
 
-	// Display a message box to the user
-	//vscode.window.showInformationMessage('Selected characters:');
-
+	if (!fileExists) {
+		 mkdirp.sync(dirname);
+		 fs.closeSync(fs.openSync(related, 'w'));
+	}
+	
+	vscode.workspace
+		.openTextDocument(related)
+		.then(vscode.window.showTextDocument);
 	});
 
 	context.subscriptions.push(disposable);
