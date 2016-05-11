@@ -1,13 +1,8 @@
-# README
-## This is the README for your extension "rails-go-to-spec"
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+# Rails Go to Spec extension for VSCODE
 
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
+Jump between code and spec in Rails projects.
 
-### For more information
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## Default keybinding:
 
-**Enjoy!**
+- Ctrl + Shift + y
+- Cmd + Shift + y (Mac)
