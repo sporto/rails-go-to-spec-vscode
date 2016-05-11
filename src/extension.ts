@@ -13,6 +13,18 @@ function openFile(fileName) {
 		.then(vscode.window.showTextDocument);
 }
 
+function prompt(fileName, cb) {
+	let options = {
+		placeHolder: `Create ${fileName}?`
+	}
+	vscode.window.showQuickPick(["Yes", "No"], options)
+			.then(function(answer) {
+				if (answer === "Yes") {
+					cb();
+				}
+			});
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -32,22 +44,20 @@ export function activate(context: vscode.ExtensionContext) {
 	let document = editor.document;
 	let fileName: string = document.fileName;
 	let related: string = resolver.getRelated(fileName);
+	let relative: string = vscode.workspace.asRelativePath(related);
 	let fileExists: boolean = fs.existsSync(related);
 	let dirname: string = path.dirname(related);
 	
-	console.log('fileExists', fileExists);
+	//console.log('fileExists', fileExists);
 
 	if (fileExists) {
 		openFile(related);
 	} else {
-		vscode.window.showQuickPick(["Yes", "No"])
-			.then(function(answer) {
-				if (answer === "Yes") {
-					mkdirp.sync(dirname);
-					fs.closeSync(fs.openSync(related, 'w'));
-					openFile(related);
-				}
-			});
+		prompt(relative, function() {
+			mkdirp.sync(dirname);
+			fs.closeSync(fs.openSync(related, 'w'));
+			openFile(related);
+		});
 	}
 
 	});
