@@ -7,6 +7,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
 
+function openFile(fileName) {
+	vscode.workspace
+		.openTextDocument(fileName)
+		.then(vscode.window.showTextDocument);
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -26,22 +32,24 @@ export function activate(context: vscode.ExtensionContext) {
 	let document = editor.document;
 	let fileName: string = document.fileName;
 	let related: string = resolver.getRelated(fileName);
- 	// console.log('related', related);
-
-	let dirname: string = path.dirname(related);
-	// console.log('dirname', dirname);
-	
 	let fileExists: boolean = fs.existsSync(related);
-	//console.log('fileExists', fileExists);
-
-	if (!fileExists) {
-		 mkdirp.sync(dirname);
-		 fs.closeSync(fs.openSync(related, 'w'));
-	}
+	let dirname: string = path.dirname(related);
 	
-	vscode.workspace
-		.openTextDocument(related)
-		.then(vscode.window.showTextDocument);
+	console.log('fileExists', fileExists);
+
+	if (fileExists) {
+		openFile(related);
+	} else {
+		vscode.window.showQuickPick(["Yes", "No"])
+			.then(function(answer) {
+				if (answer === "Yes") {
+					mkdirp.sync(dirname);
+					fs.closeSync(fs.openSync(related, 'w'));
+					openFile(related);
+				}
+			});
+	}
+
 	});
 
 	context.subscriptions.push(disposable);
