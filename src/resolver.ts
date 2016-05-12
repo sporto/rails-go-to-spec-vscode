@@ -1,5 +1,5 @@
 export function getRelated(file) {
-	if isSpec(file) {
+	if (isSpec(file)) {
 		return specToCode(file);
 	} else {
 		return codeToSpec(file);
