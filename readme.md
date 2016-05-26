@@ -6,3 +6,18 @@ Jump between code and spec in Rails projects.
 
 - Ctrl + Shift + y
 - Cmd + Shift + y (Mac)
+
+## Redine shortcuts:
+
+
+In keybindings.json
+
+```
+  ...
+	{
+		"key": "shift-cmd-y",
+		"command": "extension.railsGoToSpec",
+		"when": "editorFocus"
+	}
+	...
+```
