@@ -42,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	let document = editor.document;
-  let fileName: string = document.fileName;
+	let fileName: string = document.fileName;
 	let related: string = resolver.getRelated(fileName);
 	let relative: string = vscode.workspace.asRelativePath(related);
 	let fileExists: boolean = fs.existsSync(related);
