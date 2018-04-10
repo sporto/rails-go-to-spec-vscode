@@ -1,9 +1,9 @@
 {
-  "name": "rails-go-to-spec",
-  "displayName": "Rails Go to Spec",
-  "description": "Switch between code and spec in Rails",
+  "name": "jest-go-to-test",
+  "displayName": "Jest Go to Test",
+  "description": "Switch between code and test in Jest",
   "version": "0.0.1",
-  "publisher": "sporto",
+  "publisher": "Maxim-Filimonov",
   "engines": {
     "vscode": "^1.0.0"
   },
@@ -11,19 +11,19 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.railsGoToSpec"
+    "onCommand:extension.jestGoToTest"
   ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.railsGoToSpec",
-        "title": "Rails Go to Spec"
+        "command": "extension.jestGoToTest",
+        "title": "Go to Test"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.railsGoToSpec",
+        "command": "extension.jestGoToTest",
         "key": "ctrl+shift+y",
         "mac": "cmd+shift+y",
         "when": "editorTextFocus"
