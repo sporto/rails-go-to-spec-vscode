@@ -1,18 +1,17 @@
 {
   "name": "jest-go-to-test",
   "displayName": "Jest Go to Test",
+  "repository": {
+    "url": "https://github.com/Maxim-Filimonov/jest-go-to-test-vscode"
+  },
   "description": "Switch between code and test in Jest",
   "version": "0.0.1",
   "publisher": "Maxim-Filimonov",
   "engines": {
     "vscode": "^1.0.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:extension.jestGoToTest"
-  ],
+  "categories": ["Other"],
+  "activationEvents": ["onCommand:extension.jestGoToTest"],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
@@ -45,8 +44,6 @@
     "vscode": "^0.11.12"
   },
   "ava": {
-    "files": [
-      "out/src/*.test.js"
-    ]
+    "files": ["out/src/*.test.js"]
   }
 }
