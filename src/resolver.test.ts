@@ -6,7 +6,8 @@ import * as resolver from "./resolver";
 var testCases = [
   ["/app/something/foo.test.js", "/app/something/foo.js"],
   ["/src/component/foo.test.js", "/src/component/foo.js"],
-  ["/src/component/foo.test.ts", "/src/component/foo.ts"]
+  ["/src/component/foo.test.ts", "/src/component/foo.ts"],
+  ["/src/component/foo.test.tsx", "/src/component/foo.tsx"]
 ];
 
 test("isSpec", () => {
