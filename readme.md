@@ -7,6 +7,10 @@ Jump between code and test in projects using Jest.
 Only matches between `component.js` and `component.test.js`.
 PR's for more complicated matching are welcome!
 
+## Changes
+
+* 0.0.2 - Added support for typescript
+
 ## Default keybinding:
 
 * Ctrl + Shift + y
