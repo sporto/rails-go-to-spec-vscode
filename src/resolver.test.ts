@@ -1,6 +1,3 @@
-//import * as assert from 'assert';
-import test from "ava";
-
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 //import * as vscode from 'vscode';
@@ -11,7 +8,7 @@ var testCases = [
   ["/src/component/foo.test.js", "/src/component/foo.js"]
 ];
 
-test("isSpec", t => {
+test("isSpec", () => {
   var testCases = [
     ["/src/foo/something.test.js", true],
     ["/src/foo/something.test.jsx", true],
@@ -19,34 +16,34 @@ test("isSpec", t => {
     ["/src/foo/something.js", false],
     ["/foo/something.js", false]
   ];
-  t.plan(testCases.length);
+  expect.assertions(testCases.length);
 
   testCases.forEach(function(testCase) {
     var file = testCase[0];
     var expected = testCase[1];
     var res = resolver.isSpec(file);
-    t.is(res, expected);
+    expect(res).toEqual(expected);
   });
 });
 
-test("specToCode", t => {
-  t.plan(testCases.length);
+test("specToCode", () => {
+  expect.assertions(testCases.length);
 
   testCases.forEach(function(testCase) {
     var file = testCase[0];
     var expected = testCase[1];
     var res = resolver.specToCode(file);
-    t.is(res, expected);
+    expect(res).toEqual(expected);
   });
 });
 
-test("codeToSpec", t => {
-  t.plan(testCases.length);
+test("codeToSpec", () => {
+  expect.assertions(testCases.length);
 
   testCases.forEach(function(testCase) {
     var file = testCase[1];
     var expected = testCase[0];
     var res = resolver.codeToSpec(file);
-    t.is(res, expected);
+    expect(res).toEqual(expected);
   });
 });

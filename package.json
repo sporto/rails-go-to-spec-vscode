@@ -30,20 +30,25 @@
     ]
   },
   "scripts": {
-    "test": "ava",
+    "test": "jest",
     "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
     "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "jest": {
+    "moduleFileExtensions": ["ts", "js"],
+    "transform": {
+      "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)x?$"
   },
   "dependencies": {
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
-    "ava": "^0.14.0",
+    "jest": "^22.4.3",
+    "ts-jest": "^22.4.4",
     "typescript": "^1.8.5",
     "vscode": "^0.11.12"
-  },
-  "ava": {
-    "files": ["out/src/*.test.js"]
   }
 }
