@@ -1,7 +1,7 @@
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 //import * as vscode from 'vscode';
-import * as resolver from "./resolver";
+import * as resolver from "../src/resolver";
 
 var testCases = [
   ["/app/something/foo.test.js", "/app/something/foo.js"],

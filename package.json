@@ -10,12 +10,8 @@
   "engines": {
     "vscode": "^1.0.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:extension.jestGoToTest"
-  ],
+  "categories": ["Other"],
+  "activationEvents": ["onCommand:extension.jestGoToTest"],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
@@ -40,10 +36,7 @@
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
+    "moduleFileExtensions": ["ts", "js"],
     "transform": {
       "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
