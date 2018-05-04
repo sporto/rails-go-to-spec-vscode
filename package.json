@@ -5,13 +5,17 @@
     "url": "https://github.com/Maxim-Filimonov/jest-go-to-test-vscode"
   },
   "description": "Switch between code and test in Jest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "Maxim-Filimonov",
   "engines": {
     "vscode": "^1.0.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onCommand:extension.jestGoToTest"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.jestGoToTest"
+  ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
@@ -36,7 +40,10 @@
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "transform": {
       "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
@@ -46,6 +53,7 @@
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
+    "@types/jest": "^22.2.3",
     "jest": "^22.4.3",
     "ts-jest": "^22.4.4",
     "typescript": "^1.8.5",
