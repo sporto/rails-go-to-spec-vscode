@@ -5,15 +5,19 @@ import * as resolver from "./resolver";
 
 var testCases = [
   ["/app/something/foo.test.js", "/app/something/foo.js"],
-  ["/src/component/foo.test.js", "/src/component/foo.js"]
+  ["/src/component/foo.test.js", "/src/component/foo.js"],
+  ["/src/component/foo.test.ts", "/src/component/foo.ts"]
 ];
 
 test("isSpec", () => {
   var testCases = [
     ["/src/foo/something.test.js", true],
+    ["/src/foo/something.test.ts", true],
     ["/src/foo/something.test.jsx", true],
     ["/src/foo/something.spec.js", true],
+    ["/src/foo/something.spec.ts", true],
     ["/src/foo/something.js", false],
+    ["/src/foo/something.ts", false],
     ["/foo/something.js", false]
   ];
   expect.assertions(testCases.length);
