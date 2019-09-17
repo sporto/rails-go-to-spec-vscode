@@ -10,8 +10,12 @@
   "engines": {
     "vscode": "^1.0.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onCommand:extension.jestGoToTest"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.jestGoToTest"
+  ],
   "main": "./out/src/extension",
   "contributes": {
     "commands": [
@@ -27,7 +31,21 @@
         "mac": "cmd+shift+y",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Jest Go To Test",
+      "properties": {
+        "jestGoToTest.testSuffix": {
+          "type": "string",
+          "enum": [
+            "test",
+            "spec"
+          ],
+          "default": "test",
+          "description": "The suffix of your test files"
+        }
+      }
+    }
   },
   "scripts": {
     "test": "jest",
@@ -36,7 +54,10 @@
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "transform": {
       "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
