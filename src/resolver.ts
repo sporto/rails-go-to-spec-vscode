@@ -8,11 +8,7 @@ export function getRelated(file) {
 
 export function getControllersRelated(file) {
 	file = convertControllersOrRequestsPath(file);
-	if (isSpec(file)) {
-		return specToCode(file);
-	} else {
-		return codeToSpec(file);
-	}
+	return getRelated(file);
 }
 
 export function isSpec(file) {
