@@ -61,8 +61,6 @@ export function activate(context: vscode.ExtensionContext) {
 	} else if (resolver.isControllersOrRequests(fileName)) {
 		fileName = resolver.convertControllersOrRequestsPath(fileName)
 		related = resolver.getRelated(fileName);
-		console.log(related);
-		console.log(fs.existsSync(related));
 		fs.existsSync(related) ? openFile(related) : openPrompt(related);
 	} else {
 		openPrompt(related)
