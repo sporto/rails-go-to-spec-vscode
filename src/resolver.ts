@@ -6,6 +6,15 @@ export function getRelated(file) {
 	}
 }
 
+export function getControllersRelated(file) {
+	file = convertControllersOrRequestsPath(file);
+	if (isSpec(file)) {
+		return specToCode(file);
+	} else {
+		return codeToSpec(file);
+	}
+}
+
 export function isSpec(file) {
 	return file.indexOf('_spec.rb') > -1;
 }
@@ -14,7 +23,7 @@ export function isControllersOrRequests(file) {
 	return file.indexOf('app/controllers') > -1 || file.indexOf('spec/requests') > -1;
 }
 
-export function convertControllersOrRequestsPath(file) {
+function convertControllersOrRequestsPath(file) {
 	const isControllerFile = file.match('app/controllers');
 	if (isControllerFile) {
 		return file.replace('/app/controllers/', '/app/requests/').replace('_controller.rb', '.rb');

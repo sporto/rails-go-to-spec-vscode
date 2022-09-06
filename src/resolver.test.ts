@@ -92,19 +92,15 @@ test("isControllersOrRequests", (t) => {
 	});
 });
 
-test("convertControllersOrRequestsPath", (t) => {
+test("getControllersRelated", (t) => {
 	var testCases = [
 		[
-			'/spec/something/foo_spec.rb',
-			'/spec/something/foo_spec.rb',
-		],
-		[
 			'/app/controllers/something/something_controller.rb',
-			'/app/requests/something/something.rb',
+			'/spec/requests/something/something_spec.rb',
 		],
 		[
 			'/spec/requests/something/something_spec.rb',
-			'/spec/controllers/something/something_controller_spec.rb',
+			'/app/controllers/something/something_controller.rb',
 		],
 	];
 
@@ -113,7 +109,7 @@ test("convertControllersOrRequestsPath", (t) => {
 	testCases.forEach(function (testCase) {
 		var file = testCase[0];
 		var expected = testCase[1];
-		var res = resolver.convertControllersOrRequestsPath(file);
+		var res = resolver.getControllersRelated(file);
 		t.is(res, expected);
 	});
 });
