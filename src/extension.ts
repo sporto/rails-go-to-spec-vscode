@@ -25,6 +25,16 @@ function prompt(fileName, cb) {
 			});
 }
 
+function openPrompt(related){
+	const dirname: string = path.dirname(related);
+	const relative = vscode.workspace.asRelativePath(related);
+	prompt(relative, function () {
+		mkdirp.sync(dirname);
+		fs.closeSync(fs.openSync(related, 'w'));
+		openFile(related);
+	});
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -44,20 +54,18 @@ export function activate(context: vscode.ExtensionContext) {
 	let document = editor.document;
 	let fileName: string = document.fileName;
 	let related: string = resolver.getRelated(fileName);
-	let relative: string = vscode.workspace.asRelativePath(related);
 	let fileExists: boolean = fs.existsSync(related);
-	let dirname: string = path.dirname(related);
-	
-	//console.log('fileExists', fileExists);
 
 	if (fileExists) {
 		openFile(related);
+	} else if (resolver.isControllersOrRequests(fileName)) {
+		fileName = resolver.convertControllersOrRequestsPath(fileName)
+		related = resolver.getRelated(fileName);
+		console.log(related);
+		console.log(fs.existsSync(related));
+		fs.existsSync(related) ? openFile(related) : openPrompt(related);
 	} else {
-		prompt(relative, function() {
-			mkdirp.sync(dirname);
-			fs.closeSync(fs.openSync(related, 'w'));
-			openFile(related);
-		});
+		openPrompt(related)
 	}
 
 	});
