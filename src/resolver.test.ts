@@ -54,6 +54,66 @@ test("isSpec", (t) => {
 	});
 });
 
+test("isControllersOrRequests", (t) => {
+	var testCases = [
+		[
+			'/spec/foo/something_spec.rb',
+			false,
+		],
+		[
+			'/spec/views/something.html.erb_spec.rb',
+			false,
+		],
+		[
+			'/app/foo/something.rb',
+			false,
+		],
+		[
+			'/spec/views/something.html.erb.rb',
+			false,
+		],
+		[
+			'/app/controllers/something_controller.rb',
+			true,
+		],
+		[
+			'/spec/requests/something_spec.rb',
+			true,
+		]
+
+	]
+	t.plan(testCases.length);
+
+	testCases.forEach(function (testCase) {
+		var file = testCase[0];
+		var expected = testCase[1];
+		var res = resolver.isControllersOrRequests(file);
+		t.is(res, expected);
+	});
+});
+
+test("getControllersRelated", (t) => {
+	var testCases = [
+		[
+			'/app/controllers/something/something_controller.rb',
+			'/spec/requests/something/something_spec.rb',
+		],
+		[
+			'/spec/requests/something/something_spec.rb',
+			'/app/controllers/something/something_controller.rb',
+		],
+	];
+
+	t.plan(testCases.length);
+
+	testCases.forEach(function (testCase) {
+		var file = testCase[0];
+		var expected = testCase[1];
+		var res = resolver.getControllersRelated(file);
+		t.is(res, expected);
+	});
+});
+
 test("specToCode", (t) => {
 	t.plan(testCases.length);
 
