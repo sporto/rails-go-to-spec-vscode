@@ -4,6 +4,6 @@ All notable changes to the "rails-go-to-spec" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.0.1]
 
 - Initial release

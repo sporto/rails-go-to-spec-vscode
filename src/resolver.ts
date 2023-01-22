@@ -34,7 +34,7 @@ function convertControllersOrRequestsPath(file: string): string {
 }
 
 export function codeToSpec(file: string): string {
-	let viewRegex = /erb$|haml$|slim$/
+	let viewRegex = /erb$|haml$|slim$/;
 	let isViewFile = file.match(viewRegex);
 
 	if (isViewFile) {
