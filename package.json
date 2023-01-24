@@ -4,6 +4,7 @@
   "description": "Switch between code and spec in Rails",
   "version": "0.1.0",
   "publisher": "sporto",
+  "repository": "https://github.com/sporto/rails-go-to-spec-vscode",
   "engines": {
     "vscode": "^1.74.0"
   },
