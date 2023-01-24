@@ -4,6 +4,70 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import * as resolver from "../../resolver";
 
+type MatcherTestCase = {
+	files: {
+		code: string,
+		specs: Array<string>,
+	},
+	shouldMatch: boolean,
+}
+
+const FILES = {
+	controllers: {
+		users: {
+			code: "/app/controllers/users_controller.rb",
+			specs: [
+				"/spec/requests/users_controller_spec.rb",
+				"/spec/controllers/users_controller_spec.rb",
+			],
+		},
+		clientUsers: {
+			code: "/app/controllers/clients/users_controller.rb",
+			specs: [
+				"/spec/requests/clients/users_controller_spec.rb",
+				"/spec/controllers/clients/users_controller_spec.rb",
+			],
+		}
+	},
+	models: {
+		user: {
+			code: "/app/models/user.rb",
+			specs: [
+				"/spec/models/user_spec.rb",
+			],
+		}
+	},
+	views: {
+		usersShow: {
+			code:  "/app/views/namespace/users/_show.html.erb",
+			specs: [
+				"/spec/views/namespace/users/_show.html.erb_spec.rb",
+			],
+		},
+		usersShowHaml: {
+			code:  "/app/views/namespace/users/_show.html.haml",
+			specs: [
+				"/spec/views/namespace/users/_show.html.haml_spec.rb",
+			],
+		},
+	},
+}
+
+function testMatcher(matcher: resolver.Matcher, testCases: Array<MatcherTestCase>): void {
+	testCases.forEach(function (testCase) {
+		let file = testCase.files.code;
+		let specs = testCase.files.specs;
+
+		let actual = matcher(file);
+
+		let expected = testCase.shouldMatch
+			? R.Ok(specs)
+			: resolver.NO_MATCH
+
+		assert.deepStrictEqual(actual, expected);
+	});
+}
+
 suite("Extension Test Suite", () => {
 	vscode.window.showInformationMessage("Start all tests.");
 
@@ -41,27 +105,20 @@ suite("Extension Test Suite", () => {
 		test("viewCodeToSpec", (done) => {
 			let testCases = [
 				{
-					file: "/app/models/user.rb",
-					expected: resolver.NO_MATCH,
+					files: FILES.models.user,
+					shouldMatch: false,
 				},
 				{
-					file: "/app/views/namespace/users/_something.html.erb",
-					expected: R.Ok([
-						"/spec/views/namespace/users/_something.html.erb_spec.rb",
-					]),
+					files: FILES.views.usersShow,
+					shouldMatch: true,
 				},
 				{
-					file: "/app/views/namespace/users/something.html.haml",
-					expected: R.Ok([
-						"/spec/views/namespace/users/something.html.haml_spec.rb",
-					]),
+					files: FILES.views.usersShowHaml,
+					shouldMatch: true,
 				},
 			];
 
-			testCases.forEach(function (testCase) {
-				let actual = resolver.viewCodeToSpec(testCase.file);
-				assert.deepStrictEqual(actual, testCase.expected);
-			});
+			testMatcher(resolver.viewCodeToSpec, testCases);
 
 			done();
 		});
@@ -97,28 +154,29 @@ suite("Extension Test Suite", () => {
 		test("controllerCodeToSpec", (done) => {
 			let testCases = [
 				{
-					file: "/app/models/user.rb",
-					expected: resolver.NO_MATCH,
+					files: FILES.models.user,
+					shouldMatch: false,
 				},
 				{
-					file: "/app/controllers/users_controller.rb",
-					expected: R.Ok([
-						"/spec/requests/users_controller_spec.rb",
-						"/spec/controllers/users_controller_spec.rb",
-					]),
+					files: FILES.controllers.users,
+					shouldMatch: true,
 				},
 				{
-					file: "/app/controllers/clients/users_controller.rb",
-					expected: R.Ok([
-						"/spec/requests/clients/users_controller_spec.rb",
-						"/spec/controllers/clients/users_controller_spec.rb",
-					]),
+					files: FILES.controllers.clientUsers,
+					shouldMatch: true,
 				},
 			];
 
 			testCases.forEach(function (testCase) {
-				let actual = resolver.controllerCodeToSpec(testCase.file);
-				assert.deepStrictEqual(actual, testCase.expected);
+				let file = testCase.files.code;
+				let specs = testCase.files.specs;
+				let actual = resolver.controllerCodeToSpec(file);
+
+				let expected = testCase.shouldMatch
+					? R.Ok(specs)
+					: resolver.NO_MATCH
+
+				assert.deepStrictEqual(actual, expected);
 			});
 
 			done();

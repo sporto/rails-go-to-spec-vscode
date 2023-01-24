@@ -2,9 +2,9 @@ import { R, pipe } from "@mobily/ts-belt"
 
 export const NO_MATCH = R.Error("No Match");
 
-type Match = R.Result<Array<string>, string>;
+export type Match = R.Result<Array<string>, string>;
 
-type Matcher = (f: string) => Match;
+export type Matcher = (f: string) => Match;
 
 // For any given file return a list of possible matches
 export function getRelated(file: string): Match {
