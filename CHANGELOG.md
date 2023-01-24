@@ -1,8 +1,8 @@
 # Change Log
 
-All notable changes to the "rails-go-to-spec" extension will be documented in this file.
+## [0.1.0]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Controllers will now try to jump to the 'requests' directory first.
 
 ## [0.0.1]
 
