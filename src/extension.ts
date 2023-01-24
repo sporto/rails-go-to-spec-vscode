@@ -1,10 +1,9 @@
-// The module "vscode" contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import * as resolver from "./resolver";
 import * as fs from "fs";
 import * as path from "path";
 import * as mkdirp from "mkdirp";
+import { R } from "@mobily/ts-belt"
 
 function openFile(fileName: string) {
 	vscode.workspace
@@ -25,7 +24,7 @@ function prompt(fileName: string, cb: any) {
 		});
 }
 
-function openPrompt(related: string) {
+function openPrompt(related: string): void {
 	const dirname: string = path.dirname(related);
 	const relative = vscode.workspace.asRelativePath(related);
 	prompt(relative, function () {
@@ -55,16 +54,23 @@ export function activate(context: vscode.ExtensionContext) {
 
 		let document: vscode.TextDocument = editor.document;
 		let fileName: string = document.fileName;
-		let related: string = resolver.getRelated(fileName);
-		let fileExists: boolean = fs.existsSync(related);
+		// Get a list of related files
+		// if any of those exists, open it
+		// Otherwise prompt to create the first one
+		let matched = resolver.getRelated(fileName);
+		let related: Array<string> = R.getWithDefault(matched, []);
 
-		if (fileExists) {
-			openFile(related);
-		} else if (resolver.isControllersOrRequests(fileName)) {
-			related = resolver.getControllersRelated(fileName);
-			fs.existsSync(related) ? openFile(related) : openPrompt(related);
-		} else {
-			openPrompt(related);
+		for (let relatedFile of related) {
+			let fileExists: boolean = fs.existsSync(relatedFile);
+			if (fileExists) {
+				openFile(relatedFile);
+				break;
+			}
+		};
+
+		let first = related[0];
+		if (first != null) {
+			openPrompt(first);
 		}
 	});
 

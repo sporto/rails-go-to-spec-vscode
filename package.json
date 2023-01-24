@@ -52,6 +52,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "@mobily/ts-belt": "^3.13.1",
     "mkdirp": "^2.1.3"
   }
 }
