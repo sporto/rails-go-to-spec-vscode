@@ -9,14 +9,13 @@ Jump between code and spec in Rails projects.
 
 ## Redine shortcuts:
 
-
 In keybindings.json
 
 ```
   ...
 	{
 		"key": "shift-cmd-y",
-		"command": "extension.railsGoToSpec",
+		"command": "rails-go-to-spec.railsGoToSpec",
 		"when": "editorFocus"
 	}
 	...

@@ -2,28 +2,29 @@
   "name": "rails-go-to-spec",
   "displayName": "Rails Go to Spec",
   "description": "Switch between code and spec in Rails",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "sporto",
+  "repository": "https://github.com/sporto/rails-go-to-spec-vscode",
   "engines": {
-    "vscode": "^1.0.0"
+    "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.railsGoToSpec"
+    "onCommand:rails-go-to-spec.railsGoToSpec"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.railsGoToSpec",
+        "command": "rails-go-to-spec.railsGoToSpec",
         "title": "Rails Go to Spec"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.railsGoToSpec",
+        "command": "rails-go-to-spec.railsGoToSpec",
         "key": "ctrl+shift+y",
         "mac": "cmd+shift+y",
         "when": "editorTextFocus"
@@ -31,22 +32,28 @@
     ]
   },
   "scripts": {
-    "test": "ava",
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
-  },
-  "dependencies": {
-    "mkdirp": "^0.5.1"
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "ava": "^0.14.0",
-    "typescript": "^1.8.5",
-    "vscode": "^0.11.12"
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3"
   },
-  "ava": {
-    "files": [
-      "out/src/*.test.js"
-    ]
+  "dependencies": {
+    "@mobily/ts-belt": "^3.13.1",
+    "mkdirp": "^2.1.3"
   }
 }
