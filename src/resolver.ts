@@ -1,10 +1,10 @@
-import { R, pipe } from "@mobily/ts-belt"
+import { R, pipe } from "@mobily/ts-belt";
 
-export const NO_MATCH = R.Error("No Match");
+const NO_MATCH = R.Error("No Match");
 
-export type Match = R.Result<Array<string>, string>;
+type Match = R.Result<Array<string>, string>;
 
-export type Matcher = (f: string) => Match;
+type Matcher = (f: string) => Match;
 
 // For any given file return a list of possible matches
 export function getRelated(file: string): Match {
@@ -15,7 +15,7 @@ export function getRelated(file: string): Match {
 	}
 }
 
-export function specToCode(file: string): Match {
+function specToCode(file: string): Match {
 	return tryMatch(
 		file,
 		[
@@ -24,10 +24,10 @@ export function specToCode(file: string): Match {
 			libSpecToCode,
 			genericSpecToCode,
 		]
-	)
+	);
 }
 
-export function codeToSpec(file: string): Match {
+function codeToSpec(file: string): Match {
 	return tryMatch(
 		file,
 		[
@@ -36,7 +36,7 @@ export function codeToSpec(file: string): Match {
 			libCodeToSpec,
 			genericCodeToSpec,
 		]
-	)
+	);
 }
 
 function tryMatch(file: string, fns: Array<Matcher>): Match {
@@ -47,7 +47,7 @@ function tryMatch(file: string, fns: Array<Matcher>): Match {
 			break;
 		}
 	}
-	return NO_MATCH
+	return NO_MATCH;
 }
 
 export function isSpec(file: string): boolean {
@@ -92,7 +92,7 @@ function isViewSpec(file: string): boolean {
 	return (file.match(viewRegex) != null);
 }
 
-export function viewCodeToSpec(file: string): Match {
+function viewCodeToSpec(file: string): Match {
 	if (isViewFile(file)) {
 		let viewSpec = file
 			.replace("/app/", "/spec/")
@@ -106,7 +106,7 @@ export function viewCodeToSpec(file: string): Match {
 	}
 }
 
-export function viewSpecToCode(file: string): Match {
+function viewSpecToCode(file: string): Match {
 	if (isViewSpec(file)) {
 		let viewFile = file
 			.replace("_spec.rb", "")
@@ -118,10 +118,10 @@ export function viewSpecToCode(file: string): Match {
 	}
 }
 
-export function controllerCodeToSpec(file: string): Match {
+function controllerCodeToSpec(file: string): Match {
 	if (isControllerCode(file)) {
-		let controllerFile = pipe(file, switchToSpecDir, addSpecExtension)
-		let requestFile = controllerFile.replace("/controllers/", "/requests/")
+		let controllerFile = pipe(file, switchToSpecDir, addSpecExtension);
+		let requestFile = controllerFile.replace("/controllers/", "/requests/");
 
 		return R.Ok([requestFile, controllerFile]);
 	} else {
@@ -129,15 +129,15 @@ export function controllerCodeToSpec(file: string): Match {
 	}
 }
 
-export function controllerSpecToCode(file: string): Match {
+function controllerSpecToCode(file: string): Match {
 	let isController = isControllerSpec(file);
-	console.log(isController)
+
 	if (isController) {
 		let controllerFile = pipe(
 			file,
 			removeSpecExtension,
 			switchToAppDir
-		).replace("/requests/", "/controllers/")
+		).replace("/requests/", "/controllers/");
 
 		return R.Ok([controllerFile]);
 	} else {
@@ -145,7 +145,7 @@ export function controllerSpecToCode(file: string): Match {
 	}
 }
 
-export function libCodeToSpec(file: string): Match {
+function libCodeToSpec(file: string): Match {
 	if (isLibCode(file)) {
 		let libSpecFile = pipe(
 			file,
@@ -158,7 +158,7 @@ export function libCodeToSpec(file: string): Match {
 	}
 }
 
-export function libSpecToCode(file: string): Match {
+function libSpecToCode(file: string): Match {
 	let isLib = file.indexOf("/spec/lib/") > -1;
 
 	if (isLib) {
@@ -171,7 +171,7 @@ export function libSpecToCode(file: string): Match {
 	}
 }
 
-export function genericCodeToSpec(file: string): Match {
+function genericCodeToSpec(file: string): Match {
 	let specFile = pipe(
 		file,
 		switchToSpecDir,
@@ -181,7 +181,7 @@ export function genericCodeToSpec(file: string): Match {
 	return R.Ok([specFile]);
 }
 
-export function genericSpecToCode(file: string): Match {
+function genericSpecToCode(file: string): Match {
 	let codeFile = pipe(
 		file,
 		switchToAppDir,

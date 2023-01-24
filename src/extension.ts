@@ -3,7 +3,7 @@ import * as resolver from "./resolver";
 import * as fs from "fs";
 import * as path from "path";
 import * as mkdirp from "mkdirp";
-import { R } from "@mobily/ts-belt"
+import { R } from "@mobily/ts-belt";
 
 function openFile(fileName: string) {
 	vscode.workspace
