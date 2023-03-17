@@ -2,6 +2,12 @@
 
 Jump between code and spec in Rails projects.
 
+To install search for
+
+```
+rails-go-to-spec-2
+```
+
 ## Default keybinding:
 
 - Ctrl + Shift + y
@@ -15,7 +21,7 @@ In keybindings.json
   ...
 	{
 		"key": "shift-cmd-y",
-		"command": "rails-go-to-spec.railsGoToSpec",
+		"command": "rails-go-to-spec-2.railsGoToSpec",
 		"when": "editorFocus"
 	}
 	...
