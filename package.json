@@ -3,7 +3,7 @@
   "displayName": "Rails Go to Spec",
   "description": "Switch between code and spec in Rails",
   "version": "0.2.0",
-  "publisher": "sporto",
+  "publisher": "sporto2",
   "repository": "https://github.com/sporto/rails-go-to-spec-vscode",
   "engines": {
     "vscode": "^1.74.0"
