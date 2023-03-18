@@ -4,59 +4,6 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import * as resolver from "../../resolver";
 
-type MatcherTestCase = {
-	files: {
-		code: string,
-		specs: Array<string>,
-	},
-	shouldMatch: boolean,
-};
-
-const FILES = [
-	// controllers
-	{
-		code: "/app/controllers/users_controller.rb",
-		specs: [
-			"/spec/requests/users_controller_spec.rb",
-			"/spec/controllers/users_controller_spec.rb",
-		],
-	},
-	{
-		code: "/app/controllers/clients/users_controller.rb",
-		specs: [
-			"/spec/requests/clients/users_controller_spec.rb",
-			"/spec/controllers/clients/users_controller_spec.rb",
-		],
-	},
-	// lib
-	{
-		code: "/lib/something/foo.rb",
-		specs: [
-			"/spec/lib/something/foo_spec.rb",
-		],
-	},
-	// models
-	{
-		code: "/app/models/user.rb",
-		specs: [
-			"/spec/models/user_spec.rb",
-		],
-	},
-	// views
-	{
-		code:  "/app/views/namespace/users/_show.html.erb",
-		specs: [
-			"/spec/views/namespace/users/_show.html.erb_spec.rb",
-		],
-	},
-	{
-		code:  "/app/views/namespace/users/_show.html.haml",
-		specs: [
-			"/spec/views/namespace/users/_show.html.haml_spec.rb",
-		],
-	},
-];
-
 suite("Extension Test Suite", () => {
 	vscode.window.showInformationMessage("Start all tests.");
 
@@ -90,25 +37,166 @@ suite("Extension Test Suite", () => {
 		done();
 	});
 
-	test("getRelated", (done) => {
-		FILES.forEach(function (files) {
-			let file = files.code;
-			let specs = files.specs;
+	function assertGetRelated(file: string, expected: Array<string>) {
+		let actual = resolver
+			.getRelated(file);
 
-			// Each file should resolve to an array of potential spec files
-			let resolvedSpecs = resolver.getRelated(file);
-			let expectedSpecs = R.Ok(specs);
+		assert.deepStrictEqual(actual, R.Ok(expected));
+	}
 
-			assert.deepStrictEqual(resolvedSpecs, expectedSpecs);
+	test("controller to spec", (done) => {
+		assertGetRelated(
+			"/app/controllers/users_controller.rb",
+			[
+				"/spec/requests/users_controller_spec.rb",
+				"/spec/controllers/users_controller_spec.rb",
+			]
+		);
 
-			// Then each spec should resolve back to the source code
-			specs.forEach(function (spec: string) {
-				let resolvedCode = resolver.getRelated(spec);
-				let expectedCode = R.Ok([file]);
+		done();
+	});
 
-				assert.deepStrictEqual(resolvedCode, expectedCode);
-			});
-		});
+	test("controller nested to spec", (done) => {
+		assertGetRelated(
+			"/app/controllers/clients/users_controller.rb",
+			[
+				"/spec/requests/clients/users_controller_spec.rb",
+				"/spec/controllers/clients/users_controller_spec.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("controller spec to code", (done) => {
+		assertGetRelated(
+			"/spec/controllers/users_controller_spec.rb",
+			[
+				"/app/controllers/users_controller.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("controller nested spec to code", (done) => {
+		assertGetRelated(
+			"/spec/controllers/clients/users_controller_spec.rb",
+			[
+				"/app/controllers/clients/users_controller.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("request spec to code", (done) => {
+		assertGetRelated(
+			"/spec/requests/users_controller_spec.rb",
+			[
+				"/app/controllers/users_controller.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("model code to spec", (done) => {
+		assertGetRelated(
+			"/app/models/user.rb",
+			[
+				"/spec/models/user_spec.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("model spec to code", (done) => {
+		assertGetRelated(
+			"/spec/models/user_spec.rb",
+			[
+				"/app/models/user.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("view code to spec", (done) => {
+		assertGetRelated(
+			"/app/views/namespace/users/_show.html.erb",
+			[
+				"/spec/views/namespace/users/_show.html.erb_spec.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("view spec to code", (done) => {
+		assertGetRelated(
+			"/spec/views/namespace/users/_show.html.erb_spec.rb",
+			[
+				"/app/views/namespace/users/_show.html.erb",
+			]
+		);
+
+		done();
+	});
+
+	test("view haml code to spec", (done) => {
+		assertGetRelated(
+			"/app/views/namespace/users/_show.html.haml",
+			[
+				"/spec/views/namespace/users/_show.html.haml_spec.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("view haml spec to code", (done) => {
+		assertGetRelated(
+			"/spec/views/namespace/users/_show.html.haml_spec.rb",
+			[
+				"/app/views/namespace/users/_show.html.haml",
+			]
+		);
+
+		done();
+	});
+
+	test("root lib code to spec", (done) => {
+		assertGetRelated(
+			"/lib/something/foo.rb",
+			[
+				"/spec/lib/something/foo_spec.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("app lib code to spec", (done) => {
+		assertGetRelated(
+			"/app/lib/something/foo.rb",
+			[
+				"/spec/lib/something/foo_spec.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("lib spec to code", (done) => {
+		assertGetRelated(
+			"/spec/lib/something/foo_spec.rb",
+			[
+				"/lib/something/foo.rb",
+				"/app/lib/something/foo.rb",
+			]
+		);
 
 		done();
 	});

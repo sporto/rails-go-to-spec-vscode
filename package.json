@@ -12,19 +12,19 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:rails-go-to-spec.railsGoToSpec"
+    "onCommand:rails-go-to-spec-2.railsGoToSpec"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "rails-go-to-spec.railsGoToSpec",
+        "command": "rails-go-to-spec-2.railsGoToSpec",
         "title": "Rails Go to Spec"
       }
     ],
     "keybindings": [
       {
-        "command": "rails-go-to-spec.railsGoToSpec",
+        "command": "rails-go-to-spec-2.railsGoToSpec",
         "key": "ctrl+shift+y",
         "mac": "cmd+shift+y",
         "when": "editorTextFocus"

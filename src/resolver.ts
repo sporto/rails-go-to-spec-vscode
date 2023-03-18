@@ -2,7 +2,7 @@ import { R, pipe } from "@mobily/ts-belt";
 
 const NO_MATCH = R.Error("No Match");
 
-type Match = R.Result<Array<string>, string>;
+export type Match = R.Result<Array<string>, string>;
 
 type Matcher = (f: string) => Match;
 
@@ -33,7 +33,7 @@ function codeToSpec(file: string): Match {
 		[
 			viewCodeToSpec,
 			controllerCodeToSpec,
-			libCodeToSpec,
+			libRootCodeToSpec,
 			genericCodeToSpec,
 		]
 	);
@@ -78,7 +78,10 @@ function isControllerSpec(file: string): boolean {
 	return file.indexOf("spec/controllers") > -1 || file.indexOf("spec/requests") > -1;
 }
 
-function isLibCode(file: string): boolean {
+function isRootLibCode(file: string): boolean {
+	if (file.indexOf("app/lib/") > -1) {
+		return false;
+	}
 	return file.indexOf("/lib/") > -1;
 }
 
@@ -145,8 +148,8 @@ function controllerSpecToCode(file: string): Match {
 	}
 }
 
-function libCodeToSpec(file: string): Match {
-	if (isLibCode(file)) {
+function libRootCodeToSpec(file: string): Match {
+	if (isRootLibCode(file)) {
 		let libSpecFile = pipe(
 			file,
 			addSpecExtension,
@@ -162,10 +165,19 @@ function libSpecToCode(file: string): Match {
 	let isLib = file.indexOf("/spec/lib/") > -1;
 
 	if (isLib) {
-		let libFile = removeSpecExtension(file)
+		let libRootFile = removeSpecExtension(file)
 			.replace("/spec/lib/", "/lib/");
 
-		return R.Ok([libFile]);
+		let libAppFile = pipe(
+			file,
+			switchToAppDir,
+			removeSpecExtension,
+		);
+
+		return R.Ok([
+			libRootFile,
+			libAppFile,
+		]);
 	} else {
 		return NO_MATCH;
 	}
