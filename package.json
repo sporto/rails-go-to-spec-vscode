@@ -2,7 +2,7 @@
   "name": "rails-go-to-spec-2",
   "displayName": "Rails Go to Spec 2",
   "description": "Switch between code and spec in Rails",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "publisher": "sporto2",
   "repository": "https://github.com/sporto/rails-go-to-spec-vscode",
   "engines": {
