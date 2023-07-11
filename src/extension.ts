@@ -3,7 +3,6 @@ import * as resolver from "./resolver";
 import * as fs from "fs";
 import * as path from "path";
 import * as mkdirp from "mkdirp";
-import { R } from "@mobily/ts-belt";
 
 function openFile(fileName: string) {
 	vscode.workspace
@@ -57,8 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
 		// Get a list of related files
 		// if any of those exists, open it
 		// Otherwise prompt to create the first one
-		let matched = resolver.getRelated(fileName);
-		let related: Array<string> = R.getWithDefault(matched, []);
+		let related: Array<string> = resolver.getRelated(fileName);
 
 		for (let relatedFile of related) {
 			let fileExists: boolean = fs.existsSync(relatedFile);

@@ -1,4 +1,3 @@
-import { R } from "@mobily/ts-belt";
 import * as assert from "assert";
 
 import * as vscode from "vscode";
@@ -41,7 +40,7 @@ suite("Extension Test Suite", () => {
 		let actual = resolver
 			.getRelated(file);
 
-		assert.deepStrictEqual(actual, R.Ok(expected));
+		assert.deepStrictEqual(actual, expected);
 	}
 
 	test("controller to spec", (done) => {
