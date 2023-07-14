@@ -36,11 +36,20 @@ suite("Extension Test Suite", () => {
 		done();
 	});
 
+	function addSubProject(file: string): string {
+		return "/subproject" + file;
+	}
+
 	function assertGetRelated(file: string, expected: Array<string>) {
-		let actual = resolver
-			.getRelated(file);
+		let actual = resolver.getRelated(file);
 
 		assert.deepStrictEqual(actual, expected);
+
+		let fileInSub = addSubProject(file);
+		let expectedInSub = expected.map(addSubProject);
+		let actualInSub = resolver.getRelated(fileInSub);
+
+		assert.deepStrictEqual(actualInSub, expectedInSub);
 	}
 
 	test("controller to spec", (done) => {

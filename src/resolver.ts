@@ -22,33 +22,35 @@ function specToCode(file: string): string[] {
 }
 
 function switchToSpecDir(file: string): string[] {
-	if (file.startsWith("/app/controllers/")) {
+	if (file.includes("/app/controllers/")) {
 		return [
 			file.replace("/app/controllers/", "/spec/requests/"),
 			file.replace("/app/controllers/", "/spec/controllers/"),
 		];
-	} else if (file.startsWith("/app/")) {
+	} else if (file.includes("/app/")) {
 		return [
 			file.replace("/app/", "/spec/"),
 		];
-	} else {
+	} else if (file.includes("/lib/")) {
 		return [
-			`/spec${file}`
+			file.replace("/lib/", "/spec/lib/"),
 		];
+	} else {
+		return [];
 	}
 }
 
 function switchToCodeDir(file: string): string[] {
-	if (file.startsWith("/spec/config/initializers/")) {
+	if (file.includes("/spec/config/initializers/")) {
 		return [
 			file.replace("/spec/", "/"),
 		];
-	} else if (file.startsWith("/spec/lib/")) {
+	} else if (file.includes("/spec/lib/")) {
 		return [
 			file.replace("/spec/", "/"),
 			file.replace("/spec/", "/app/"),
 		];
-	} else if (file.startsWith("/spec/requests/")) {
+	} else if (file.includes("/spec/requests/")) {
 		return [
 			file.replace("/spec/requests/", "/app/controllers/"),
 		];
