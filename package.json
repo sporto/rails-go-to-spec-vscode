@@ -29,7 +29,16 @@
         "mac": "cmd+shift+y",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == ruby",
+          "command": "rails-go-to-spec-2.railsGoToSpec",
+          "group": "railsgotospec"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
