@@ -120,6 +120,17 @@ suite("Extension Test Suite", () => {
 		done();
 	});
 
+	test("model code to spec inside Docker", (done) => {
+		assertGetRelated(
+			"/usr/src/app/models/user.rb",
+			[
+				"/usr/src/spec/models/user_spec.rb",
+			]
+		);
+
+		done();
+	});
+
 	test("model spec to code", (done) => {
 		assertGetRelated(
 			"/spec/models/user_spec.rb",
