@@ -27,6 +27,10 @@ function switchToSpecDir(file: string): string[] {
 			file.replace("/app/controllers/", "/spec/requests/"),
 			file.replace("/app/controllers/", "/spec/controllers/"),
 		];
+	} else if (file.includes("/app/app/")) {
+		return [
+			file.replace("/app/app/", "/app/spec/"),
+		];
 	} else if (file.includes("/app/")) {
 		return [
 			file.replace("/app/", "/spec/"),

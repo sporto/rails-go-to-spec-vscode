@@ -122,9 +122,9 @@ suite("Extension Test Suite", () => {
 
 	test("model code to spec inside Docker", (done) => {
 		assertGetRelated(
-			"/usr/src/app/models/user.rb",
+			"/usr/src/app/app/models/user.rb",
 			[
-				"/usr/src/spec/models/user_spec.rb",
+				"/usr/src/app/spec/models/user_spec.rb",
 			]
 		);
 
@@ -136,6 +136,17 @@ suite("Extension Test Suite", () => {
 			"/spec/models/user_spec.rb",
 			[
 				"/app/models/user.rb",
+			]
+		);
+
+		done();
+	});
+
+	test("model code spec inside Docker", (done) => {
+		assertGetRelated(
+			"/usr/src/app/spec/models/user_spec.rb",
+			[
+				"/usr/src/app/app/models/user.rb",
 			]
 		);
 
